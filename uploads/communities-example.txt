@@ -1,0 +1,4 @@
+# Paste Facebook group / community links below — one per line (max 20)
+# Example:
+# https://www.facebook.com/groups/xxxxxxxx
+# https://www.facebook.com/groups/yyyyyyyy

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Practice form · RPA Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1a2332;
+        --muted: #5c6b7a;
+        --line: #d5dde6;
+        --accent: #0d6e6e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "DM Sans", system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 70% 50% at 20% 0%, rgba(13, 110, 110, 0.12), transparent),
+          #f7f4ef;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1rem;
+      }
+      form {
+        width: min(420px, 100%);
+        background: #fffdf9;
+        border: 1px solid var(--line);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 12px 40px rgba(26, 35, 50, 0.08);
+      }
+      h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.35rem;
+      }
+      .hint {
+        margin: 0 0 1.25rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+      label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        margin-bottom: 0.3rem;
+      }
+      input,
+      textarea {
+        width: 100%;
+        font: inherit;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 0.45rem;
+        margin-bottom: 0.9rem;
+      }
+      textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        border: none;
+        background: var(--ink);
+        color: #fff;
+        padding: 0.65rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        width: 100%;
+      }
+      #result {
+        display: none;
+        margin-top: 1rem;
+        padding: 0.85rem;
+        border-radius: 0.55rem;
+        background: #d8f0ef;
+        color: var(--accent);
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      #result.visible {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="practice" novalidate>
+      <h1>Practice contact form</h1>
+      <p class="hint">
+        Used by the RPA “Fill a demo form” bot. You can also submit it by hand.
+      </p>
+      <label for="name">Name</label>
+      <input id="name" name="name" required autocomplete="name" />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email" />
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Submit</button>
+      <div id="result" role="status"></div>
+    </form>
+    <script>
+      document.getElementById("practice").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const result = document.getElementById("result");
+        result.textContent =
+          "Thanks, " + name + "! We received your message from " + email + ": “" + message + "”";
+        result.classList.add("visible");
+      });
+    </script>
+  </body>
+</html>

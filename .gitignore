@@ -1,0 +1,10 @@
+node_modules/
+artifacts/
+browser-profiles/
+uploads/inbox/
+.env
+.DS_Store
+*.log
+*.png
+!uploads/ipad-a16/*.png
+!uploads/ipad-a16/.gitkeep

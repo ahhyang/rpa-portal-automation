@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Practice Playground · RPA Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1a2332;
+        --muted: #5c6b7a;
+        --line: #d5dde6;
+        --panel: #fffdf9;
+        --accent: #0d6e6e;
+        --warn: #b45309;
+        --font: "DM Sans", system-ui, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--font);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 70% 40% at 10% 0%, rgba(13,110,110,.12), transparent),
+          #f0ebe3;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.9rem 1.25rem;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255,253,249,.9);
+      }
+      header strong { color: var(--accent); }
+      .nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+      .nav button, .btn {
+        font: inherit;
+        font-weight: 600;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 0.45rem;
+        padding: 0.4rem 0.75rem;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .btn-accent {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      main { max-width: 920px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+      .screen { display: none; animation: fade .25s ease; }
+      .screen.is-active { display: block; }
+      @keyframes fade {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+      }
+      h1 { margin: 0 0 0.4rem; font-size: 1.6rem; letter-spacing: -0.02em; }
+      .sub { color: var(--muted); margin: 0 0 1.25rem; line-height: 1.45; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 0.85rem;
+        padding: 1.15rem;
+        margin-bottom: 0.85rem;
+        box-shadow: 0 10px 28px rgba(26,35,50,.06);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.85rem;
+      }
+      .product h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+      .product p { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.88rem; }
+      .price { font-weight: 700; color: var(--accent); margin-bottom: 0.65rem; }
+      label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin: 0.55rem 0 0.25rem; }
+      input, select, textarea {
+        width: 100%;
+        font: inherit;
+        padding: 0.5rem 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 0.4rem;
+      }
+      .row { display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: end; }
+      .row > * { flex: 1; min-width: 140px; }
+      .ticket { cursor: pointer; transition: border-color .15s; }
+      .ticket:hover, .ticket.is-open { border-color: var(--accent); }
+      .badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.15rem 0.4rem;
+        border-radius: 0.3rem;
+        background: #fde8d0;
+        color: var(--warn);
+      }
+      .badge.done { background: #d8f0ef; color: var(--accent); }
+      .banner {
+        background: #d8f0ef;
+        color: var(--accent);
+        font-weight: 700;
+        padding: 0.85rem 1rem;
+        border-radius: 0.65rem;
+        margin-bottom: 1rem;
+      }
+      .muted { color: var(--muted); }
+      table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+      th, td { text-align: left; padding: 0.55rem 0.35rem; border-bottom: 1px solid var(--line); }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div><strong>Playground</strong> · practice app for RPA bots</div>
+      <nav class="nav">
+        <button type="button" data-goto="home">Shop</button>
+        <button type="button" data-goto="office">Office inbox</button>
+        <button type="button" data-goto="report">Report</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- SHOP FLOW -->
+      <section id="screen-home" class="screen is-active" data-screen="home">
+        <h1>Demo Shop</h1>
+        <p class="sub">Search, filter, add to cart, then checkout — a multi-step RPA workout.</p>
+        <div class="card row">
+          <div>
+            <label for="search">Search products</label>
+            <input id="search" placeholder="e.g. notebook" />
+          </div>
+          <div>
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="all">All</option>
+              <option value="office">Office</option>
+              <option value="tech">Tech</option>
+              <option value="home">Home</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn" type="button" id="apply-filters">Apply filters</button>
+          </div>
+        </div>
+        <div id="product-grid" class="grid"></div>
+        <div class="card">
+          <h2 style="margin:0 0 0.5rem;font-size:1.05rem">Cart (<span id="cart-count">0</span>)</h2>
+          <ul id="cart-list" class="muted"></ul>
+          <button class="btn btn-primary" type="button" id="go-checkout" disabled>Go to checkout</button>
+        </div>
+      </section>
+
+      <section id="screen-checkout" class="screen" data-screen="checkout">
+        <h1>Checkout</h1>
+        <p class="sub">Fill shipping details and place the order.</p>
+        <div class="card">
+          <label for="ship-name">Full name</label>
+          <input id="ship-name" />
+          <label for="ship-email">Email</label>
+          <input id="ship-email" type="email" />
+          <label for="ship-city">City</label>
+          <input id="ship-city" />
+          <label for="ship-note">Delivery note</label>
+          <textarea id="ship-note" rows="3"></textarea>
+          <div style="margin-top:1rem;display:flex;gap:0.5rem">
+            <button class="btn" type="button" data-goto="home">Back</button>
+            <button class="btn btn-accent" type="button" id="place-order">Place order</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-confirm" class="screen" data-screen="confirm">
+        <div class="banner" id="order-banner">Order placed</div>
+        <div class="card">
+          <p id="order-summary"></p>
+          <button class="btn" type="button" data-goto="home">Back to shop</button>
+        </div>
+      </section>
+
+      <!-- OFFICE FLOW -->
+      <section id="screen-office" class="screen" data-screen="office">
+        <h1>Office login</h1>
+        <p class="sub">Demo credentials: <code>agent</code> / <code>automate</code></p>
+        <div class="card" style="max-width:380px">
+          <label for="login-user">Username</label>
+          <input id="login-user" autocomplete="username" />
+          <label for="login-pass">Password</label>
+          <input id="login-pass" type="password" autocomplete="current-password" />
+          <p id="login-error" class="hidden" style="color:#b42318;font-weight:600">Invalid login</p>
+          <button class="btn btn-primary" type="button" id="do-login" style="margin-top:0.85rem;width:100%">Sign in</button>
+        </div>
+      </section>
+
+      <section id="screen-inbox" class="screen" data-screen="inbox">
+        <h1>Support inbox</h1>
+        <p class="sub">Open a ticket, leave a resolution note, mark it done.</p>
+        <div id="ticket-list"></div>
+        <div id="ticket-panel" class="card hidden">
+          <h2 id="ticket-title" style="margin:0 0 0.35rem;font-size:1.1rem"></h2>
+          <p id="ticket-body" class="muted"></p>
+          <label for="resolution">Resolution note</label>
+          <textarea id="resolution" rows="3" placeholder="What did you do?"></textarea>
+          <button class="btn btn-accent" type="button" id="resolve-ticket" style="margin-top:0.75rem">Mark resolved</button>
+        </div>
+      </section>
+
+      <!-- REPORT -->
+      <section id="screen-report" class="screen" data-screen="report">
+        <h1>Daily ops report</h1>
+        <p class="sub">Build a small report from filters — good for scrape + screenshot practice.</p>
+        <div class="card row">
+          <div>
+            <label for="report-team">Team</label>
+            <select id="report-team">
+              <option value="all">All teams</option>
+              <option value="sales">Sales</option>
+              <option value="support">Support</option>
+              <option value="ops">Ops</option>
+            </select>
+          </div>
+          <div>
+            <label for="report-status">Status</label>
+            <select id="report-status">
+              <option value="all">All</option>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn btn-primary" type="button" id="build-report">Build report</button>
+          </div>
+        </div>
+        <div class="card">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Team</th><th>Task</th><th>Status</th></tr>
+            </thead>
+            <tbody id="report-body"></tbody>
+          </table>
+          <p id="report-meta" class="muted" style="margin-top:0.75rem"></p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const products = [
+        { id: "p1", name: "Notebook A5", category: "office", price: 6, desc: "Dotted pages" },
+        { id: "p2", name: "USB-C Hub", category: "tech", price: 29, desc: "4 ports" },
+        { id: "p3", name: "Desk lamp", category: "home", price: 35, desc: "Warm LED" },
+        { id: "p4", name: "Sticky notes", category: "office", price: 4, desc: "Pastel pack" },
+        { id: "p5", name: "Wireless mouse", category: "tech", price: 22, desc: "Silent click" },
+        { id: "p6", name: "Plant pot", category: "home", price: 12, desc: "Ceramic" },
+      ];
+
+      const tickets = [
+        { id: "T-101", title: "Cannot export CSV", body: "Export button stays disabled on Reports.", status: "open" },
+        { id: "T-102", title: "Wrong invoice total", body: "Customer sees $0 on receipt email.", status: "open" },
+        { id: "T-103", title: "Password reset loop", body: "Reset link expires immediately.", status: "open" },
+      ];
+
+      const reportRows = [
+        { id: "R1", team: "sales", task: "Follow up leads", status: "open" },
+        { id: "R2", team: "support", task: "Clear inbox", status: "open" },
+        { id: "R3", team: "ops", task: "Backup check", status: "closed" },
+        { id: "R4", team: "sales", task: "Update CRM", status: "closed" },
+        { id: "R5", team: "support", task: "Reply SLA tickets", status: "open" },
+        { id: "R6", team: "ops", task: "Rotate keys", status: "open" },
+      ];
+
+      const state = { cart: [], activeTicket: null, lastOrder: null };
+
+      function show(name) {
+        document.querySelectorAll(".screen").forEach((s) => {
+          s.classList.toggle("is-active", s.dataset.screen === name);
+        });
+      }
+
+      document.querySelectorAll("[data-goto]").forEach((btn) => {
+        btn.addEventListener("click", () => show(btn.getAttribute("data-goto")));
+      });
+
+      function renderProducts() {
+        const q = (document.getElementById("search").value || "").toLowerCase().trim();
+        const cat = document.getElementById("category").value;
+        const list = products.filter((p) => {
+          const matchCat = cat === "all" || p.category === cat;
+          const matchQ = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+          return matchCat && matchQ;
+        });
+        const grid = document.getElementById("product-grid");
+        grid.innerHTML = list
+          .map(
+            (p) => `
+          <div class="card product" data-product-id="${p.id}">
+            <h3>${p.name}</h3>
+            <p>${p.desc} · ${p.category}</p>
+            <div class="price">$${p.price}</div>
+            <button class="btn btn-accent add-to-cart" type="button" data-add="${p.id}">Add to cart</button>
+          </div>`
+          )
+          .join("");
+        grid.querySelectorAll("[data-add]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const item = products.find((p) => p.id === btn.dataset.add);
+            state.cart.push(item);
+            renderCart();
+          });
+        });
+      }
+
+      function renderCart() {
+        document.getElementById("cart-count").textContent = String(state.cart.length);
+        const ul = document.getElementById("cart-list");
+        ul.innerHTML = state.cart.length
+          ? state.cart.map((i) => `<li>${i.name} — $${i.price}</li>`).join("")
+          : "<li>Cart is empty</li>";
+        document.getElementById("go-checkout").disabled = state.cart.length === 0;
+      }
+
+      document.getElementById("apply-filters").addEventListener("click", renderProducts);
+      document.getElementById("go-checkout").addEventListener("click", () => show("checkout"));
+
+      document.getElementById("place-order").addEventListener("click", () => {
+        const name = document.getElementById("ship-name").value.trim();
+        const email = document.getElementById("ship-email").value.trim();
+        const city = document.getElementById("ship-city").value.trim();
+        const note = document.getElementById("ship-note").value.trim();
+        if (!name || !email || !city) {
+          alert("Name, email, and city are required");
+          return;
+        }
+        const total = state.cart.reduce((s, i) => s + i.price, 0);
+        const orderId = "ORD-" + Date.now().toString().slice(-6);
+        state.lastOrder = { orderId, name, email, city, note, total, items: [...state.cart] };
+        document.getElementById("order-banner").textContent = "Order " + orderId + " confirmed";
+        document.getElementById("order-summary").textContent =
+          name + " · " + email + " · " + city + " · $" + total +
+          (note ? " · Note: " + note : "") +
+          " · Items: " + state.cart.map((i) => i.name).join(", ");
+        state.cart = [];
+        renderCart();
+        show("confirm");
+      });
+
+      function renderTickets() {
+        const box = document.getElementById("ticket-list");
+        box.innerHTML = tickets
+          .map(
+            (t) => `
+          <div class="card ticket" data-ticket-id="${t.id}">
+            <span class="badge ${t.status === "done" ? "done" : ""}">${t.status}</span>
+            <strong style="margin-left:0.5rem">${t.id}</strong>
+            <div style="margin-top:0.35rem">${t.title}</div>
+          </div>`
+          )
+          .join("");
+        box.querySelectorAll(".ticket").forEach((el) => {
+          el.addEventListener("click", () => {
+            const t = tickets.find((x) => x.id === el.dataset.ticketId);
+            state.activeTicket = t;
+            box.querySelectorAll(".ticket").forEach((n) => n.classList.remove("is-open"));
+            el.classList.add("is-open");
+            document.getElementById("ticket-panel").classList.remove("hidden");
+            document.getElementById("ticket-title").textContent = t.id + " — " + t.title;
+            document.getElementById("ticket-body").textContent = t.body;
+            document.getElementById("resolution").value = "";
+          });
+        });
+      }
+
+      document.getElementById("do-login").addEventListener("click", () => {
+        const u = document.getElementById("login-user").value.trim();
+        const p = document.getElementById("login-pass").value;
+        const err = document.getElementById("login-error");
+        if (u === "agent" && p === "automate") {
+          err.classList.add("hidden");
+          renderTickets();
+          show("inbox");
+        } else {
+          err.classList.remove("hidden");
+        }
+      });
+
+      document.getElementById("resolve-ticket").addEventListener("click", () => {
+        const note = document.getElementById("resolution").value.trim();
+        if (!state.activeTicket) return;
+        if (!note) {
+          alert("Add a resolution note first");
+          return;
+        }
+        state.activeTicket.status = "done";
+        state.activeTicket.resolution = note;
+        document.getElementById("ticket-panel").classList.add("hidden");
+        renderTickets();
+      });
+
+      document.getElementById("build-report").addEventListener("click", () => {
+        const team = document.getElementById("report-team").value;
+        const status = document.getElementById("report-status").value;
+        const rows = reportRows.filter((r) => {
+          const mt = team === "all" || r.team === team;
+          const ms = status === "all" || r.status === status;
+          return mt && ms;
+        });
+        document.getElementById("report-body").innerHTML = rows
+          .map((r) => `<tr><td>${r.id}</td><td>${r.team}</td><td>${r.task}</td><td>${r.status}</td></tr>`)
+          .join("");
+        document.getElementById("report-meta").textContent =
+          rows.length + " rows · team=" + team + " · status=" + status;
+      });
+
+      renderProducts();
+      renderCart();
+      document.getElementById("build-report").click();
+    </script>
+  </body>
+</html>

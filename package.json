@@ -1,0 +1,26 @@
+{
+  "name": "rpa-portal",
+  "version": "1.0.0",
+  "description": "Learn RPA (Playwright) and APA (API automation) with a local portal",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "postinstall": "npx playwright install chromium"
+  },
+  "keywords": [
+    "rpa",
+    "apa",
+    "playwright",
+    "automation"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "multer": "^2.2.0",
+    "playwright": "^1.50.1",
+    "uuid": "^11.0.5"
+  }
+}

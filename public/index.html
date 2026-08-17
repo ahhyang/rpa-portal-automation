@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RPA Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+    <header class="top">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <p class="brand-name">RPA Portal</p>
+          <p class="brand-tag">Learn RPA · APA · Playwright</p>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button class="tab is-active" data-tab="tasks" type="button">Tasks</button>
+        <button class="tab" data-tab="runs" type="button">Runs</button>
+        <button class="tab" data-tab="learn" type="button">Learn</button>
+        <button class="tab" data-tab="api" type="button">API</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="panel-tasks" class="panel is-active">
+        <div class="intro">
+          <h1>Run automations on this device</h1>
+          <p>
+            Pick a task. For RPA, keep <em>Watch browser &amp; red cursor</em> on —
+            Chromium opens on your laptop so you can see every move. APA tasks
+            call APIs with no browser.
+          </p>
+        </div>
+        <div class="layout">
+          <div id="task-list" class="task-list"></div>
+          <aside class="runner" id="runner">
+            <p class="muted">Select a task to configure and run it.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="panel-runs" class="panel">
+        <div class="intro">
+          <h1>Recent runs</h1>
+          <p>Status, logs, and results from tasks you triggered here or via the API.</p>
+        </div>
+        <div id="runs-list" class="runs-list"></div>
+        <div id="run-detail" class="run-detail" hidden></div>
+      </section>
+
+      <section id="panel-learn" class="panel">
+        <div class="intro">
+          <h1>RPA vs APA</h1>
+          <p>Two ways to automate work — pick the right tool for the job.</p>
+        </div>
+        <div class="learn-grid">
+          <article>
+            <h2>RPA — Robotic Process Automation</h2>
+            <p>
+              A bot uses a <strong>real browser</strong> (or desktop UI) the way a
+              person would: open page, type, click, scrape, screenshot.
+            </p>
+            <ul>
+              <li>Great when there is <em>no API</em></li>
+              <li>Uses Playwright (Chromium) in this portal</li>
+              <li>Slower and more fragile than APIs</li>
+            </ul>
+          </article>
+          <article>
+            <h2>APA — API Process Automation</h2>
+            <p>
+              Automate by calling <strong>HTTP APIs</strong> directly: GET data,
+              POST updates, chain steps into a workflow.
+            </p>
+            <ul>
+              <li>Faster and more reliable</li>
+              <li>Preferred when the system exposes an API</li>
+              <li>Same portal can trigger these via REST</li>
+            </ul>
+          </article>
+        </div>
+        <div class="learn-extra">
+          <h2>Practice apps</h2>
+          <p>
+            <a href="/practice-form.html" target="_blank" rel="noopener">Practice form</a>
+            ·
+            <a href="/playground.html" target="_blank" rel="noopener">Playground</a>
+            (shop checkout, office inbox, ops report) — used by the complex RPA tasks.
+          </p>
+        </div>
+      </section>
+
+      <section id="panel-api" class="panel">
+        <div class="intro">
+          <h1>Trigger tasks from any client</h1>
+          <p>
+            Your portal exposes a small REST API — curl, Postman, or another
+            script can start the same automations.
+          </p>
+        </div>
+        <pre class="code"><code>GET  /api/tasks
+GET  /api/tasks/:id
+POST /api/tasks/:id/run   { "inputs": { ... } }
+GET  /api/runs
+GET  /api/runs/:id</code></pre>
+        <h2 class="code-title">Example — screenshot via API</h2>
+        <pre class="code"><code>curl -X POST http://localhost:3847/api/tasks/rpa-screenshot/run ^
+  -H "Content-Type: application/json" ^
+  -d "{\"inputs\":{\"url\":\"https://example.com\"}}"
+
+# then poll
+curl http://localhost:3847/api/runs/&lt;run-id&gt;</code></pre>
+        <h2 class="code-title">Example — APA chain</h2>
+        <pre class="code"><code>curl -X POST http://localhost:3847/api/tasks/apa-chain/run ^
+  -H "Content-Type: application/json" ^
+  -d "{\"inputs\":{\"userId\":\"1\"}}"</code></pre>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span id="health">Checking server…</span>
+      <span>Local only · Port 3847</span>
+    </footer>
+    <script src="/app.js"></script>
+  </body>
+</html>
